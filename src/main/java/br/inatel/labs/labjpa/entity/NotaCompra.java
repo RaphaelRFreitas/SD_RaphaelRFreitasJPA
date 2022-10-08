@@ -10,6 +10,14 @@ import java.util.Objects;
 @Entity
 public class NotaCompra {
 
+    public NotaCompra(Fornecedor fornecedor, LocalDate dataEmissao) {
+        this.fornecedor = fornecedor;
+        this.dataEmissao = dataEmissao;
+    }
+
+    public NotaCompra() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,5 +58,13 @@ public class NotaCompra {
                 .map( i -> i.getCalculoTotalItem() )
                 .reduce( BigDecimal.ZERO, BigDecimal::add);
         return total;
+    }
+
+    @Override
+    public String toString() {
+        return "NotaCompra{" +
+                "id=" + id +
+                ", dataEmissao=" + dataEmissao +
+                '}';
     }
 }

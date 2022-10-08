@@ -9,6 +9,15 @@ import java.util.Objects;
 
 @Entity
 public class Fornecedor {
+
+    public Fornecedor(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public Fornecedor() {
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,5 +65,13 @@ public class Fornecedor {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Fornecedor{" +
+                "id=" + id +
+                ", razaoSocial='" + razaoSocial + '\'' +
+                '}';
     }
 }

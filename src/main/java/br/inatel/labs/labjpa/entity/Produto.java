@@ -10,6 +10,18 @@ import java.util.Objects;
 @Entity
 public class Produto {
 
+    public Produto(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Produto(Long id) {
+        this.id = id;
+    }
+
+    public Produto() {
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,5 +53,13 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                '}';
     }
 }

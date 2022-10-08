@@ -8,6 +8,16 @@ import java.util.Objects;
 @Entity
 public class NotaCompraItem {
 
+    public NotaCompraItem(NotaCompra notaCompra, Produto produto, BigDecimal valorCompraProduto, Integer quantidade) {
+        this.valorCompraProduto = valorCompraProduto;
+        this.quantidade = quantidade;
+        this.notaCompra = notaCompra;
+        this.produto = produto;
+    }
+
+    public NotaCompraItem() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,5 +60,14 @@ public class NotaCompraItem {
 
     public BigDecimal getCalculoTotalItem() {
         return valorCompraProduto.multiply(BigDecimal.valueOf(quantidade));
+    }
+
+    @Override
+    public String toString() {
+        return "NotaCompraItem{" +
+                "id=" + id +
+                ", valorCompraProduto=" + valorCompraProduto +
+                ", quantidade=" + quantidade +
+                '}';
     }
 }
