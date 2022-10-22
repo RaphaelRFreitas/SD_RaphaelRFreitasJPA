@@ -8,16 +8,6 @@ import java.util.Objects;
 @Entity
 public class NotaCompraItem {
 
-    public NotaCompraItem(NotaCompra notaCompra, Produto produto, BigDecimal valorCompraProduto, Integer quantidade) {
-        this.valorCompraProduto = valorCompraProduto;
-        this.quantidade = quantidade;
-        this.notaCompra = notaCompra;
-        this.produto = produto;
-    }
-
-    public NotaCompraItem() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +26,9 @@ public class NotaCompraItem {
     @ManyToOne
     private Produto produto;
 
+    public BigDecimal getCalculoTotalItem(){
+        return valorCompraProduto.multiply(BigDecimal.valueOf(quantidade));
+    }
 
     public Long getId() {
         return id;
@@ -45,21 +38,46 @@ public class NotaCompraItem {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NotaCompraItem)) return false;
-        NotaCompraItem that = (NotaCompraItem) o;
-        return Objects.equals(id, that.id);
+    public BigDecimal getValorCompraProduto() {
+        return valorCompraProduto;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setValorCompraProduto(BigDecimal valorCompraProduto) {
+        this.valorCompraProduto = valorCompraProduto;
     }
 
-    public BigDecimal getCalculoTotalItem() {
-        return valorCompraProduto.multiply(BigDecimal.valueOf(quantidade));
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public NotaCompra getNotaCompra() {
+        return notaCompra;
+    }
+
+    public void setNotaCompra(NotaCompra notaCompra) {
+        this.notaCompra = notaCompra;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public NotaCompraItem(BigDecimal valorCompraProduto, Integer quantidade, NotaCompra notaCompra, Produto produto) {
+        this.valorCompraProduto = valorCompraProduto;
+        this.quantidade = quantidade;
+        this.notaCompra = notaCompra;
+        this.produto = produto;
+    }
+
+    public NotaCompraItem() {
     }
 
     @Override
@@ -69,5 +87,18 @@ public class NotaCompraItem {
                 ", valorCompraProduto=" + valorCompraProduto +
                 ", quantidade=" + quantidade +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NotaCompraItem)) return false;
+        NotaCompraItem that = (NotaCompraItem) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

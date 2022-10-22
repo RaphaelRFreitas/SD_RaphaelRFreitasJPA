@@ -10,24 +10,15 @@ import java.util.Objects;
 @Entity
 public class NotaCompra {
 
-    public NotaCompra(Fornecedor fornecedor, LocalDate dataEmissao) {
-        this.fornecedor = fornecedor;
-        this.dataEmissao = dataEmissao;
-    }
-
-    public NotaCompra() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @ManyToOne
-    private Fornecedor fornecedor;
-
     @NotNull
     private LocalDate dataEmissao;
+
+    @ManyToOne
+    @NotNull
+    private Fornecedor fornecedor;
 
     @OneToMany(mappedBy = "notaCompra")
     private List<NotaCompraItem> listaNotaCompraItem;
@@ -40,24 +31,36 @@ public class NotaCompra {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NotaCompra)) return false;
-        NotaCompra that = (NotaCompra) o;
-        return Objects.equals(id, that.id);
+    public LocalDate getDataEmissao() {
+        return dataEmissao;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setDataEmissao(LocalDate dataEmissao) {
+        this.dataEmissao = dataEmissao;
     }
 
-    public BigDecimal getCalculoTotalNota() {
-        BigDecimal total = this.listaNotaCompraItem.stream()
-                .map( i -> i.getCalculoTotalItem() )
-                .reduce( BigDecimal.ZERO, BigDecimal::add);
-        return total;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public List<NotaCompraItem> getListaNotaCompraItem() {
+        return listaNotaCompraItem;
+    }
+
+    public void setListaNotaCompraItem(List<NotaCompraItem> listaNotaCompraItem) {
+        this.listaNotaCompraItem = listaNotaCompraItem;
+    }
+
+    public NotaCompra(LocalDate dataEmissao, Fornecedor fornecedor) {
+        this.dataEmissao = dataEmissao;
+        this.fornecedor = fornecedor;
+    }
+
+    public NotaCompra() {
     }
 
     @Override
@@ -66,5 +69,24 @@ public class NotaCompra {
                 "id=" + id +
                 ", dataEmissao=" + dataEmissao +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NotaCompra)) return false;
+        NotaCompra that = (NotaCompra) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    public BigDecimal getCalculoTotalNota(){
+        return this.listaNotaCompraItem.stream()
+                .map(NotaCompraItem::getCalculoTotalItem)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -17,24 +17,26 @@ import java.util.List;
 
 //@SpringBootTest
 class DataLoader {
+
 	@Autowired
 	private ProdutoService produtoService;
+
 	@Autowired
 	private FornecedorService fornecedorService;
+
 	@Autowired
 	private NotaCompraService notaCompraService;
 
 	//@Test
 	void load() {
 
-		//1. criando produtos aleatórios
+		//1. produto
 		Produto p1 = new Produto("Furadeira");
-		Produto p2 = new Produto("Parafusadeira");
-		Produto p3 = new Produto("Martelo");
-		Produto p4 = new Produto("Chave de fenda");
-		Produto p5 = new Produto("Chave de boca");
+		Produto p2 = new Produto("Lixadeira");
+		Produto p3 = new Produto("Plaina");
+		Produto p4 = new Produto("Tupia");
+		Produto p5 = new Produto("Serra Circular");
 
-		//2. salvando os produtos no banco de dados
 		p1 = produtoService.salvar(p1);
 		p2 = produtoService.salvar(p2);
 		p3 = produtoService.salvar(p3);
@@ -44,40 +46,38 @@ class DataLoader {
 		List<Produto> lista = produtoService.listar();
 		lista.forEach(System.out::println);
 
-		//3 - criando fornecedores aleatórios
+		//2. fornecedor
 		Fornecedor f1 = new Fornecedor("Gasometro Madeiras");
-		Fornecedor f2 = new Fornecedor("Ferreira Ferramentas");
+		Fornecedor f2 = new Fornecedor("Loja do Mecanico");
 
-		//4 - salvando os fornecedores no banco de dados
 		f1 = fornecedorService.salvar(f1);
 		f2 = fornecedorService.salvar(f2);
 
-		List<Fornecedor> listaFornecedor = fornecedorService.listar();
-		listaFornecedor.forEach(System.out::println);
+		List<Fornecedor> listaDeFornecedores = fornecedorService.listar();
+		listaDeFornecedores.forEach(System.out::println);
 
-		//5 - criando notas de compra aleatórias
-		NotaCompra n1 = new NotaCompra(f1, LocalDate.of(2020, 1, 1));
-		NotaCompra n2 = new NotaCompra(f2, LocalDate.of(2020, 1, 2));
+		//3. NotaCompra
+		NotaCompra nc1 = new NotaCompra( LocalDate.of(2021, 1, 15), f1);
+		nc1 = notaCompraService.salvarNotaCompra(nc1);
 
-		//6 - salvando as notas de compra no banco de dados
-		n1 = notaCompraService.salvarNotaCompra(n1);
-		n2 = notaCompraService.salvarNotaCompra(n2);
+		NotaCompra nc2 = new NotaCompra( LocalDate.of(2022, 2, 20), f2);
+		nc2 = notaCompraService.salvarNotaCompra(nc2);
 
-		List<NotaCompra> listaNotaCompra = notaCompraService.listarNotaCompra();
-		listaNotaCompra.forEach(System.out::println);
+		notaCompraService.listarNotaCompra().forEach( System.out::println );
 
-		//7 - Criando NotasCompraIten aleatórios
-		//4. Nota Compra Item
-		NotaCompraItem i1_1 = new NotaCompraItem(n1, p1, new BigDecimal("300.00"), 2);
-		NotaCompraItem i1_2 = new NotaCompraItem(n1, p2, new BigDecimal("1000.00"), 1);
-		NotaCompraItem i1_3 = new NotaCompraItem(n1, p3, new BigDecimal("500.00"), 3);
-		i1_1 = notaCompraService.salvarNotaCompraItem(i1_1);
-		i1_2 = notaCompraService.salvarNotaCompraItem(i1_2);
-		i1_3 = notaCompraService.salvarNotaCompraItem(i1_3);
 
-		NotaCompraItem i2_1 = new NotaCompraItem(n2, p4, new BigDecimal("400.00"), 7);
-		NotaCompraItem i2_2 = new NotaCompraItem(n2, p2, new BigDecimal("1000.00"), 2);
-		NotaCompraItem i2_3 = new NotaCompraItem(n2, p5, new BigDecimal("700.00"), 1);
+		//4. NotaCompraItem
+		//NotaCompraItem i1_1 = new NotaCompraItem(nc1, p1, new BigDecimal("300.00"), 2);
+		//NotaCompraItem i1_2 = new NotaCompraItem(nc1, p2, new BigDecimal("1000.00"), 1);
+		//NotaCompraItem i1_3 = new NotaCompraItem(nc1, p3, new BigDecimal("500.00"), 3);
+		//i1_1 = notaCompraService.salvarNotaCompraItem(i1_1);
+		//i1_2 = notaCompraService.salvarNotaCompraItem(i1_2);
+		//i1_3 = notaCompraService.salvarNotaCompraItem(i1_3);
+
+		NotaCompraItem i2_1 = new NotaCompraItem(new BigDecimal("400.00"),7, nc2, p4 );
+		NotaCompraItem i2_2 = new NotaCompraItem(new BigDecimal("1000.00"),2, nc2, p2 );
+		NotaCompraItem i2_3 = new NotaCompraItem(new BigDecimal("700.00"),1, nc2, p5 );
+
 		i2_1 = notaCompraService.salvarNotaCompraItem(i2_1);
 		i2_2 = notaCompraService.salvarNotaCompraItem(i2_2);
 		i2_3 = notaCompraService.salvarNotaCompraItem(i2_3);
