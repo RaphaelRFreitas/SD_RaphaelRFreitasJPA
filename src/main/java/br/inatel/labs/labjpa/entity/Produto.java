@@ -62,4 +62,8 @@ public class Produto {
                 ", descricao='" + descricao + '\'' +
                 '}';
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }
